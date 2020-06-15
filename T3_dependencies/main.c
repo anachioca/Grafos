@@ -22,27 +22,26 @@ void atualizaGrafo(GRAFO *A, int *lista){
     }
 }
 
-int GrafoPossuiCiclo(GRAFO *A){
-    // descobrir arestas de retorno..
-}
-
 int main(){
 
     int m, n, V1, V2, count = 0;
     scanf("%d", &n); //numero de vertices
     scanf("%d", &m); //numero de arestas que serão inseridas
-    GRAFO *A = criar_grafo(n);
+    GRAFO *A = criar_grafo(n); // grafo invertido
+    GRAFO *B = criar_grafo(n); // grafo normal
     int * executado = (int*) calloc(n, sizeof(int));
 
     for (int i = 0; i < m; i++){
         scanf("%d %d", &V1, &V2);
         InsereAresta(A, V2, V1); // preenche o grafo ao contrário!
+        InsereAresta(B, V1, V2); // preenche o grafo normal
     }
 
-    if (GrafoPossuiCiclo(A)){
+    if (GrafoPossuiCiclo(B, A)){
         printf("%d", -1);
         free(executado);
         freeGrafo(A);
+        freeGrafo(B);
         return 0;     
     }
 
@@ -63,6 +62,7 @@ int main(){
     printf("%d", count);
 
     free(executado);
+    freeGrafo(B);
     freeGrafo(A);
     return 0;    
 }

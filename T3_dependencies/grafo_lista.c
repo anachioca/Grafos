@@ -3,6 +3,10 @@
 #include "grafo_lista.h"
 #include "listaencad.h"
 
+#define COR int
+#define BRANCO 0
+#define CINZA 1
+#define PRETO 2
 
 GRAFO *criar_grafo(int numVertices){
     GRAFO* A = (GRAFO*) malloc(sizeof(GRAFO)); 
@@ -63,6 +67,71 @@ int RetiraAresta(GRAFO* A, int V1, int V2){
 
     A->numArestas--;
     return 1;
+}
+
+// procura arestas de retorno utilizando a busca em profundidade
+int GrafoPossuiCiclo(GRAFO *A, GRAFO *B){
+    COR * cor = calloc(A->numVertices,sizeof(COR));
+    int * antecessor = malloc(A->numVertices*sizeof(int));
+    int V;
+
+    for (V= 0; V < A->numVertices; V++) {
+        cor[V]= BRANCO;
+        antecessor[V]= -1;
+    }
+
+    for (V= 0; V< A->numVertices; V++){
+        if (cor[V] == BRANCO)
+            if (visita_dfs(A, V, cor, antecessor, B) == 1) {
+                free(cor);
+                free(antecessor);
+                return 1;
+            }
+    }
+
+    free(cor);
+    free(antecessor);
+    return 0;
+}
+
+// retorna 1 se V1 eh descendente de V2
+int ehDescendente(GRAFO *A, int V1, int V2){
+
+    if (lista_existe_no( A->lista[V1], V2)) {
+        return 1;
+    }
+
+    else{
+        for (int i = 0; i < A->lista[V1]->size; i ++){
+            if (ehDescendente(A, getItem(A->lista[V1], i), V2) == 1) return 1;;
+        }
+    }
+    
+    return 0;
+}
+
+int visita_dfs(GRAFO *A, int V, COR *cor, int antecessor[], GRAFO *B){
+    int FimListaAdj, erro;
+    NO *Adj, *Aux;
+    cor[V]= CINZA;
+
+    if (!ListaAdjVazia(A, V, &erro)) {
+        Aux = PrimeiroListaAdj(A, V, &erro);
+        FimListaAdj= 0;
+        while (!FimListaAdj) {
+            ProxAdj(A, &Adj, &Aux, &FimListaAdj, &erro);
+            if (cor[Adj->item] == BRANCO) {
+                antecessor[Adj->item]= V;
+                if (visita_dfs(A, Adj->item, cor, antecessor, B) == 1) {
+                    return 1;
+                }   
+            }
+            else if (cor[Adj->item] == CINZA && ehDescendente(B, V, Adj->item)) return 1;    
+        }
+    }
+
+    cor[V] = PRETO;
+    return 0; 
 }
 
 int ImprimeGrafo(GRAFO *A){

@@ -3,6 +3,13 @@
     #include "listaencad.h"
 
     typedef struct grafo GRAFO;
+    typedef struct no_ NO;
+    typedef struct lista_ LISTA;
+
+    #define COR int
+    #define BRANCO 0
+    #define CINZA 1
+    #define PRETO 2
 
     struct grafo {
         int numVertices;
@@ -14,7 +21,10 @@
     GRAFO *freeGrafo(GRAFO *A);
     int InsereAresta(GRAFO* A, int V1, int V2);
     int RetiraAresta(GRAFO* A, int V1, int V2);
+    int GrafoPossuiCiclo(GRAFO *A, GRAFO *B);
     int ExisteAresta(GRAFO *A, int V1, int V2);
+    int ehDescendente(GRAFO *A, int V1, int V2);
+    int visita_dfs(GRAFO *A, int V, COR *cor, int antecessor[], GRAFO *B);
     int ImprimeGrafo(GRAFO *A);
 
 #endif
