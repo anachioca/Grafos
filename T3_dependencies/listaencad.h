@@ -23,10 +23,8 @@
     void lista_apagar(LISTA *lista);
     int lista_remover(LISTA *lista, int chave);
     int lista_existe_no(LISTA *l, int chave);
-    int ListaAdjVazia(GRAFO *A, int V, int *erro);
-    NO* PrimeiroListaAdj(GRAFO *A, int V, int *erro);
+    NO * NoInicial(LISTA *l);
     int getItem(LISTA *lista, int pos);
-    void ProxAdj(GRAFO *A, NO **Adj, NO **Prox, int *FimListaAdj, int *erro);
     void lista_imprimir(LISTA *l);
 
 

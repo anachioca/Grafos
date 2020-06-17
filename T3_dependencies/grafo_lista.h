@@ -26,5 +26,8 @@
     int ehDescendente(GRAFO *A, int V1, int V2);
     int visita_dfs(GRAFO *A, int V, COR *cor, int antecessor[], GRAFO *B);
     int ImprimeGrafo(GRAFO *A);
+    void ProxAdj(GRAFO *A, NO **Adj, NO **Prox, int *FimListaAdj, int *erro) ;
+    NO* PrimeiroListaAdj(GRAFO *A, int V, int *erro) ;
+    int ListaAdjVazia(GRAFO *A, int V, int *erro);
 
 #endif

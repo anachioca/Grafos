@@ -113,6 +113,7 @@ int lista_remover(LISTA *lista, int chave){
     return 0;
 }
 
+// verifica se existe um nó com dada chave na lista
 int lista_existe_no(LISTA *l, int chave){
     NO* aux = l->inicio;
     int i = 0;
@@ -130,35 +131,7 @@ NO * NoInicial(LISTA *l){
     return l->inicio;
 }
 
-/*função que verifica se um vértice não tem vizinhos, assumindo a E.D. anterior
-  essa função faz parte do TAD Grafo!!
-*/
-int ListaAdjVazia(GRAFO *A, int V, int *erro) {
-    if (V > A->numVertices) {
-       *erro=1;
-       return(1);
-    }
-    else {
-         *erro=0;
-         if (NoInicial(A->lista[V]) == NULL) return(1);
-         else return(0);
-    }
-}
-
-/* retorna o endereço do primeiro vértice na lista de adjacentes de V
-   esta é uma função interna ao TAD Grafo
-*/
-NO* PrimeiroListaAdj(GRAFO *A, int V, int *erro) {
-    if (V > A->numVertices) {
-       *erro=1;
-       return(NULL);
-    }
-    else {
-        *erro=0;
-        return ( NoInicial(A->lista[V]) );
-    }
-}
-
+// retorna item em dada posição da lista
 int getItem(LISTA *lista, int pos){
     NO* aux = lista->inicio;
     int i = 0;
@@ -168,19 +141,6 @@ int getItem(LISTA *lista, int pos){
         i++;
     }
     return aux->item;
-}
-
-/*retorna o vértice adjacente Adj (apontado por Prox) da lista de adjacentes
-de V, bem como o peso associado à aresta V-Adj, e posiciona Prox no próximo
-vértice adjacente; FimListaAdj retorna 1 se o final da lista foi encontrado
-esta é uma função interna ao TAD Grafo
-*/
-void ProxAdj(GRAFO *A, NO **Adj, NO **Prox, int *FimListaAdj, int *erro) {
-     *erro=0;
-     *Adj=*Prox;
-     *Prox=(*Prox)->prox;
-     if (*Prox==NULL)
-        *FimListaAdj=1;
 }
 
 void lista_imprimir(LISTA *l){

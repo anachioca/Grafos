@@ -126,6 +126,8 @@ int visita_dfs(GRAFO *A, int V, COR *cor, int antecessor[], GRAFO *B){
                     return 1;
                 }   
             }
+            // caso o nó adj já tenha sido visitado e seja ascendente do nó atual
+            // trata-se de uma aresta de retorno -> grafo possui ciclo!
             else if (cor[Adj->item] == CINZA && ehDescendente(B, V, Adj->item)) return 1;    
         }
     }
@@ -144,4 +146,46 @@ int ImprimeGrafo(GRAFO *A){
         }
     }
     printf("\n");
+}
+
+/*retorna o vértice adjacente Adj (apontado por Prox) da lista de adjacentes
+de V, bem como o peso associado à aresta V-Adj, e posiciona Prox no próximo
+vértice adjacente; FimListaAdj retorna 1 se o final da lista foi encontrado
+esta é uma função interna ao TAD Grafo
+*/
+void ProxAdj(GRAFO *A, NO **Adj, NO **Prox, int *FimListaAdj, int *erro) {
+     *erro=0;
+     *Adj=*Prox;
+     *Prox=(*Prox)->prox;
+     if (*Prox==NULL)
+        *FimListaAdj=1;
+}
+
+/* retorna o endereço do primeiro vértice na lista de adjacentes de V
+   esta é uma função interna ao TAD Grafo
+*/
+NO* PrimeiroListaAdj(GRAFO *A, int V, int *erro) {
+    if (V > A->numVertices) {
+       *erro=1;
+       return(NULL);
+    }
+    else {
+        *erro=0;
+        return ( NoInicial(A->lista[V]) );
+    }
+}
+
+/*função que verifica se um vértice não tem vizinhos, assumindo a E.D. anterior
+  essa função faz parte do TAD Grafo!!
+*/
+int ListaAdjVazia(GRAFO *A, int V, int *erro) {
+    if (V > A->numVertices) {
+       *erro=1;
+       return(1);
+    }
+    else {
+         *erro=0;
+         if (NoInicial(A->lista[V]) == NULL) return(1);
+         else return(0);
+    }
 }
