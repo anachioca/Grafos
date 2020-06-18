@@ -18,6 +18,7 @@
     };
 
     LISTA *lista_criar(void);
+    void freeLista(LISTA *l);
     int lista_inserir_fim(LISTA *lista, int i);
     int lista_inserir_ordenado(LISTA *lista, int i);
     void lista_apagar(LISTA *lista);

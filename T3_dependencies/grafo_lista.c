@@ -27,16 +27,17 @@ GRAFO *criar_grafo(int numVertices){
     return A;
 }
 
-GRAFO *freeGrafo(GRAFO *A){
-    if(A == NULL) return NULL;
+void freeGrafo(GRAFO *A){
+    if(A == NULL) return;
 
-    for (int i = 0; i < A->numVertices; i++)
-        free(A->lista[i]);
+    for (int i = 0; i < A->numVertices; i++){
+         freeLista(A->lista[i]);
+         free(A->lista[i]);
+    }     
 
     free(A->lista);
     free(A);
     A = NULL;
-    return A;
 }
 
 int InsereAresta(GRAFO* A, int V1, int V2){  

@@ -14,6 +14,20 @@ LISTA *lista_criar(void){
     return lista;
 }
 
+void freeLista(LISTA *l){
+    if (l == NULL) return;
+    NO* aux = l->inicio;
+
+    int i = 0;
+    while (i < l->size){
+        free(aux);
+        aux = aux->prox;
+        i++;
+    }
+
+    free(aux);
+}
+
 int lista_inserir_fim(LISTA *lista, int i){
     NO *p = (NO*)malloc(sizeof(NO));
     p->item = i;

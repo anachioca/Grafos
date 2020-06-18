@@ -18,7 +18,7 @@
     };
 
     GRAFO *criar_grafo(int numVertices);
-    GRAFO *freeGrafo(GRAFO *A);
+    void freeGrafo(GRAFO *A);
     int InsereAresta(GRAFO* A, int V1, int V2);
     int RetiraAresta(GRAFO* A, int V1, int V2);
     int GrafoPossuiCiclo(GRAFO *A, GRAFO *B);
