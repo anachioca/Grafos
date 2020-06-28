@@ -92,3 +92,49 @@ void relax(GRAFO * A, int * d, int * antecessor, int V1, int V2){
         antecessor[V2] = V1;
     }
 } 
+
+int listaVazia(int lista[], int n){
+    for (int i = 0; i < n; i++){
+        if (lista[i] != -1) return 0;
+    }
+    return 1;
+}
+
+int * dijkstra(GRAFO * A, int origem, int destino){
+    int * antecessor =  malloc(A -> numVertices * sizeof(int));
+    int * d = malloc(A->numVertices * sizeof(int));
+    int processados[A->numVertices];
+    int filaPrioridade[A->numVertices];
+    int u, v;
+
+    for (int i = 0; i < A -> numVertices; i++){
+        antecessor[i] = -1;
+        d[i] = infinito;
+        filaPrioridade[i] = i;
+    }
+
+    d[origem] = 0;
+    int loop = 0;
+
+    while(listaVazia(filaPrioridade, A->numVertices)){
+        u = filaPrioridade[loop];
+        processados[loop] = u;
+        for (int i = 0; i < A->numVertices; i++){
+            if (A->matriz[u][v].tempo != 0){
+                relax(A, d, antecessor, u, v);
+            }
+        } 
+    }
+
+    int n[1];
+    path(origem, destino, antecessor, n);
+
+    VOO * menorCaminho = malloc(sizeof(VOO));
+    menorCaminho->custo = 0;
+    menorCaminho->tempo = 0;
+
+    for (int i = 0; i < n[0]; i++){
+
+    }
+
+}
