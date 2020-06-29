@@ -18,12 +18,13 @@
     LISTA *lista_criar(void);
     int lista_inserir_fim(LISTA *lista, int i);
     int lista_inserir_inicio(LISTA *lista, int i);
-    int lista_inserir_ordenado(LISTA *lista, int i);
-    void lista_apagar(LISTA *lista);
+    int lista_inserir_ordenado(LISTA *lista, int i, int * d);
+    void lista_apagar(LISTA **lista);
     int lista_remover(LISTA *lista, int chave);
     int lista_existe_no(LISTA *l, int chave);
     int listaVazia(LISTA *l);
     int dequeue(LISTA *l);
+    void reordena(LISTA *l, int i, int *d);
     void lista_imprimir(LISTA *l);
 
 

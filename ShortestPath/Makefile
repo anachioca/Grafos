@@ -1,7 +1,11 @@
 all: prog
 
 run: prog
-	./prog 
+	./prog < 8.in
+	
+valgrind: prog
+	gcc -o prog -g -Wall -ggdb3 *.o -g
+	valgrind --leak-check=full --show-leak-kinds=all ./prog < 8.in
 	
 prog: listaencad.o grafo_matriz.o main.o
 	gcc -o prog listaencad.o grafo_matriz.o main.o -g

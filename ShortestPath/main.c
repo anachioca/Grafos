@@ -17,6 +17,6 @@ int main(){
     scanf("%d %d", &origem, &destino);
     dijkstra(A, origem, destino);
 
-    freeGrafo(A);
+    freeGrafo(&A);
     return 0;
 }

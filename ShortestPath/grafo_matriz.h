@@ -17,7 +17,7 @@
     };
 
     GRAFO *criar_grafo(int numVertices);
-    GRAFO *freeGrafo(GRAFO *A);
+    void freeGrafo(GRAFO ** A);
     int InsereAresta(GRAFO* A, int V1, int V2, int tempo, int custo);
     int RetiraAresta(GRAFO* A, int V1, int V2);
     int ExisteAresta(GRAFO *A, int V1, int V2);

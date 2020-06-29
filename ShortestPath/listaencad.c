@@ -50,7 +50,7 @@ int lista_inserir_inicio(LISTA *lista, int i){
     return 0;
 }
 
-int lista_inserir_ordenado(LISTA *lista, int chave){
+int lista_inserir_ordenado(LISTA *lista, int chave, int *d){
     NO *n = (NO*)malloc(sizeof(NO));
     n->item = chave;
     if (lista->inicio == NULL){ //se for o primeiro elemento a ser inserido
@@ -63,7 +63,7 @@ int lista_inserir_ordenado(LISTA *lista, int chave){
     NO *p = lista->inicio;
     NO *q;
 
-    if (p->item > chave) {
+    if (d[p->item] > d[chave]) {
         lista->inicio = n;
         n->prox = p;
         lista->size++;
@@ -72,7 +72,7 @@ int lista_inserir_ordenado(LISTA *lista, int chave){
        
     else{
         for (p = lista->inicio; p != (lista->fim->prox); p = p->prox){
-            if (p->item > chave){
+            if (d[p->item] > d[chave]){
                 q->prox = n;
                 n->prox = p;
                 lista->size++;
@@ -82,7 +82,7 @@ int lista_inserir_ordenado(LISTA *lista, int chave){
         }
     }
 
-    if(lista->fim->item < chave){
+    if(d[lista->fim->item] < d[chave]){
         lista->fim->prox = n;
         lista->fim = n;
         n->prox = NULL;
@@ -93,13 +93,15 @@ int lista_inserir_ordenado(LISTA *lista, int chave){
     return -1;
 }
 
-void lista_apagar(LISTA *l){
-    NO* aux = l->inicio;
-    while (aux != l->fim->prox){
+void lista_apagar(LISTA ** l){
+    if (*l == NULL) return;
+    LISTA * lista = *l;
+    NO* aux = lista->inicio;
+    while (aux != lista->fim->prox){
         free(aux);
         aux = aux->prox;
     }
-    free(l);
+    free(lista);
 }
 
 int lista_remover(LISTA *lista, int chave){

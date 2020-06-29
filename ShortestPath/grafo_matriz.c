@@ -32,16 +32,17 @@ GRAFO *criar_grafo(int numVertices){
     return A;
 }
 
-GRAFO *freeGrafo(GRAFO *A){
-    if(A == NULL) return NULL;
+void freeGrafo(GRAFO **A){
+    if(*A == NULL) return;
+    GRAFO * B = *A;
 
-    for (int i = 0; i < A->numVertices; i++)
-        free(A->matriz[i]);
+    for (int i = 0; i < B->numVertices; i++)
+        free(B->matriz[i]);
 
-    free(A->matriz);
-    free(A);
+    free(B->matriz);
+    free(*A);
     A = NULL;
-    return A;
+    return;
 }
 
 int InsereAresta(GRAFO* A, int V1, int V2, int tempo, int custo){
@@ -98,10 +99,12 @@ LISTA * listaAdjacencias(GRAFO *A, int V1){
 }
 
 // relaxa a aresta entre V1 e V2
-void relax(GRAFO * A, int * d, int * antecessor, int V1, int V2){
+void relax(GRAFO * A, int * d, int * antecessor, LISTA * filaPrioridade, int V1, int V2){
     if (d[V2] > d[V1] + A->matriz[V1][V2].tempo){
         d[V2] = d[V1] + A->matriz[V1][V2].tempo;
         antecessor[V2] = V1;
+        lista_remover(filaPrioridade, V2);
+        lista_inserir_ordenado(filaPrioridade, V2, d);
     }
 } 
 
@@ -125,7 +128,7 @@ LISTA * dijkstra(GRAFO * A, int origem, int destino){
         u = dequeue(filaPrioridade);
         lista_inserir_fim(processados, u);
         for (int v = 0; v < A->numVertices; v++){
-            if (A->matriz[u][v].tempo != 0) relax(A, d, antecessor, u, v);
+            if (A->matriz[u][v].tempo != 0) relax(A, d, antecessor, filaPrioridade, u, v);
         } 
     }
 
@@ -152,4 +155,9 @@ LISTA * dijkstra(GRAFO * A, int origem, int destino){
     
     printf("%d %d", d[destino], custo);
 
+    free(antecessor);
+    free(d);
+    free(caminho);
+    lista_apagar(&processados);
+    free(filaPrioridade);
 }
