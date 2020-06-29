@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "grafo_matriz.h"
+#include "listaencad.h"
 
 #define infinito 99999
 
@@ -85,6 +86,17 @@ int ImprimeGrafo(GRAFO *A){
     printf("\n");
 }
 
+LISTA * listaAdjacencias(GRAFO *A, int V1){
+    LISTA * lista = lista_criar();
+
+    for (int i = 0; i < A->numVertices; i++){
+        if (A->matriz[V1][i].tempo != 0){
+            lista_inserir_fim(lista, i);
+        }
+    }
+    return lista;
+}
+
 // relaxa a aresta entre V1 e V2
 void relax(GRAFO * A, int * d, int * antecessor, int V1, int V2){
     if (d[V2] > d[V1] + A->matriz[V1][V2].tempo){
@@ -93,48 +105,51 @@ void relax(GRAFO * A, int * d, int * antecessor, int V1, int V2){
     }
 } 
 
-int listaVazia(int lista[], int n){
-    for (int i = 0; i < n; i++){
-        if (lista[i] != -1) return 0;
-    }
-    return 1;
-}
-
-int * dijkstra(GRAFO * A, int origem, int destino){
+LISTA * dijkstra(GRAFO * A, int origem, int destino){
     int * antecessor =  malloc(A -> numVertices * sizeof(int));
     int * d = malloc(A->numVertices * sizeof(int));
-    int processados[A->numVertices];
-    int filaPrioridade[A->numVertices];
-    int u, v;
+    LISTA * processados = lista_criar();
+    LISTA * filaPrioridade = lista_criar();
+    lista_inserir_inicio(filaPrioridade, origem);
+    int u;
 
     for (int i = 0; i < A -> numVertices; i++){
         antecessor[i] = -1;
         d[i] = infinito;
-        filaPrioridade[i] = i;
+        if (i != origem ) lista_inserir_fim(filaPrioridade, i);
     }
 
     d[origem] = 0;
-    int loop = 0;
 
-    while(listaVazia(filaPrioridade, A->numVertices)){
-        u = filaPrioridade[loop];
-        processados[loop] = u;
-        for (int i = 0; i < A->numVertices; i++){
-            if (A->matriz[u][v].tempo != 0){
-                relax(A, d, antecessor, u, v);
-            }
+    while(!listaVazia(filaPrioridade)){
+        u = dequeue(filaPrioridade);
+        lista_inserir_fim(processados, u);
+        for (int v = 0; v < A->numVertices; v++){
+            if (A->matriz[u][v].tempo != 0) relax(A, d, antecessor, u, v);
         } 
     }
 
-    int n[1];
-    path(origem, destino, antecessor, n);
+    LISTA * caminho = lista_criar();
+    int node = destino;
+    int custo = 0;
 
-    VOO * menorCaminho = malloc(sizeof(VOO));
-    menorCaminho->custo = 0;
-    menorCaminho->tempo = 0;
-
-    for (int i = 0; i < n[0]; i++){
-
+    while (node != -1){
+        lista_inserir_inicio(caminho, node);
+        node = antecessor[node];
     }
+
+    lista_imprimir(caminho);
+    int size = caminho->size;
+    int aux = dequeue(caminho);
+    int aux2;
+
+    for (int i = 0; i < size-1; i++){
+        aux2 = dequeue(caminho);
+        custo += A->matriz[aux][aux2].custo;
+        aux = aux2;
+    }
+
+    
+    printf("%d %d", d[destino], custo);
 
 }

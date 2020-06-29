@@ -1,5 +1,6 @@
 #ifndef grafo_matriz_H
     #define grafo_matriz_H
+    #include "listaencad.h"
 
     typedef struct grafo GRAFO;
     typedef struct voo VOO;
@@ -21,5 +22,6 @@
     int RetiraAresta(GRAFO* A, int V1, int V2);
     int ExisteAresta(GRAFO *A, int V1, int V2);
     int ImprimeGrafo(GRAFO *A);
+    LISTA * dijkstra(GRAFO * A, int origem, int destino);
 
 #endif

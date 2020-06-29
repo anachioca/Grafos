@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "grafo_matriz.h"
+#include "listaencad.h"
 
 int main(){
     int nCidades, nVoos, V1, V2, tempo, custo, origem, destino;
@@ -14,7 +15,7 @@ int main(){
     }
 
     scanf("%d %d", &origem, &destino);
-    int *caminho = dijkstra(A, origem, destino);
+    dijkstra(A, origem, destino);
 
     freeGrafo(A);
     return 0;
