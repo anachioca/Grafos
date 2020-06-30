@@ -1,7 +1,11 @@
 all: prog
 
-run: prog
-	./prog < 8.in
+run: prog 
+	./prog 
+
+debug: listaencad.o grafo_matriz.o main.o
+	gcc -o prog listaencad.o grafo_matriz.o main.o -g
+	gdb prog
 	
 valgrind: prog
 	gcc -o prog -g -Wall -ggdb3 *.o -g

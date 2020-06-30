@@ -132,6 +132,35 @@ int lista_remover(LISTA *lista, int chave){
     return 0;
 }
 
+void swap(int *xp, int *yp) { 
+    int temp = *xp; 
+    *xp = *yp; 
+    *yp = temp; 
+} 
+
+void bubbleSort(int arr[], int n, int *d) { 
+   int i, j; 
+   for (i = 0; i < n-1; i++)       
+  
+       // Last i elements are already in place    
+       for (j = 0; j < n-i-1; j++)  
+           if (d[arr[j]] > d[arr[j+1]]) 
+              swap(&arr[j], &arr[j+1]); 
+} 
+
+void ordenaLista(LISTA *l, int *d){
+    int * lista = malloc(l->size * sizeof(int));
+    int size = l->size;
+    for (int i = 0; i < size; i++){
+        lista[i] = dequeue(l);
+    }
+    bubbleSort(lista, size, d);
+    for (int i = 0; i < size; i++){
+        lista_inserir_fim(l, lista[i]);
+    }
+    free(lista);
+}
+
 int lista_existe_no(LISTA *l, int chave){
     NO* aux = l->inicio;
     int i = 0;

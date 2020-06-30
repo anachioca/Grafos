@@ -103,8 +103,7 @@ void relax(GRAFO * A, int * d, int * antecessor, LISTA * filaPrioridade, int V1,
     if (d[V2] > d[V1] + A->matriz[V1][V2].tempo){
         d[V2] = d[V1] + A->matriz[V1][V2].tempo;
         antecessor[V2] = V1;
-        lista_remover(filaPrioridade, V2);
-        lista_inserir_ordenado(filaPrioridade, V2, d);
+        ordenaLista(filaPrioridade, d);
     }
 } 
 

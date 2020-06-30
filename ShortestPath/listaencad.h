@@ -21,6 +21,7 @@
     int lista_inserir_ordenado(LISTA *lista, int i, int * d);
     void lista_apagar(LISTA **lista);
     int lista_remover(LISTA *lista, int chave);
+    void ordenaLista(LISTA *l, int *d);
     int lista_existe_no(LISTA *l, int chave);
     int listaVazia(LISTA *l);
     int dequeue(LISTA *l);
