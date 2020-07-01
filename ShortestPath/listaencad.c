@@ -141,13 +141,13 @@ void swap(int *xp, int *yp) {
 void bubbleSort(int arr[], int n, int *d) { 
    int i, j; 
    for (i = 0; i < n-1; i++)       
-  
-       // Last i elements are already in place    
+     
        for (j = 0; j < n-i-1; j++)  
            if (d[arr[j]] > d[arr[j+1]]) 
               swap(&arr[j], &arr[j+1]); 
 } 
 
+// ordena a lista de acordo com o vetor d[]
 void ordenaLista(LISTA *l, int *d){
     int * lista = malloc(l->size * sizeof(int));
     int size = l->size;
@@ -179,6 +179,7 @@ int listaVazia(LISTA *l){
     else return 0;
 }
 
+// remove o primeiro elemento da lista (como uma fila)
 int dequeue(LISTA *l){
     int aux = l->inicio->item;
     lista_remover(l, aux);

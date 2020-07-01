@@ -48,7 +48,7 @@ void freeGrafo(GRAFO **A){
 int InsereAresta(GRAFO* A, int V1, int V2, int tempo, int custo){
     if (A == NULL) return -1;
     if (V1 < 0 || V1 > A->numVertices || V2 < 0 || V2 > A->numVertices) return -1;
-    if (A->matriz[V1][V2].tempo != 0) return 0; //já existe aresta, pois não existe voo com tempo 0
+    if (A->matriz[V1][V2].tempo != 0) return 0; // já existe aresta, pois não existe voo com tempo 0
     
     A->matriz[V1][V2].tempo = tempo;
     A->matriz[V1][V2].custo = custo;
@@ -59,7 +59,7 @@ int InsereAresta(GRAFO* A, int V1, int V2, int tempo, int custo){
 int RetiraAresta(GRAFO* A, int V1, int V2){
     if (A == NULL) return -1;
     if (V1 < 0 || V1 > A->numVertices || V2 < 0 || V2 > A->numVertices) return -1;
-    if (A->matriz[V1][V2].tempo == 0) return 0;
+    if (A->matriz[V1][V2].tempo == 0) return 0; // não existia a aresta
     A->matriz[V1][V2].tempo = 0;
     A->matriz[V1][V2].custo = 0;
     A->numArestas--;
@@ -73,6 +73,7 @@ int ExisteAresta(GRAFO *A, int V1, int V2){
     else return 1; //existe aresta
 }
 
+// imprime todos os voos registrados
 int ImprimeGrafo(GRAFO *A){
     if (A == NULL) 
         printf("\nO grafo não existe.");
@@ -115,6 +116,7 @@ LISTA * dijkstra(GRAFO * A, int origem, int destino){
     lista_inserir_inicio(filaPrioridade, origem);
     int u;
 
+    // a filaPrioridade é uma lista ordenada de modo crescente, de acordo com o vetor d[]
     for (int i = 0; i < A -> numVertices; i++){
         antecessor[i] = -1;
         d[i] = infinito;
@@ -123,6 +125,8 @@ LISTA * dijkstra(GRAFO * A, int origem, int destino){
 
     d[origem] = 0;
 
+    // enquanto ainda houver elementos na filaPrioridade, retira o primeiro elemento (menor distância)
+    // e relaxa todas as arestas ligadas a ele
     while(!listaVazia(filaPrioridade)){
         u = dequeue(filaPrioridade);
         lista_inserir_fim(processados, u);
@@ -135,6 +139,8 @@ LISTA * dijkstra(GRAFO * A, int origem, int destino){
     int node = destino;
     int custo = 0;
 
+    // caminho é uma lista com todas os vértices que fazem parte do 
+    // menor camimnho entre a origem e o destino
     while (node != -1){
         lista_inserir_inicio(caminho, node);
         node = antecessor[node];
@@ -145,13 +151,14 @@ LISTA * dijkstra(GRAFO * A, int origem, int destino){
     int aux = dequeue(caminho);
     int aux2;
 
+    // soma o custo de todas as arestas envolvidas no menor caminho
     for (int i = 0; i < size-1; i++){
         aux2 = dequeue(caminho);
         custo += A->matriz[aux][aux2].custo;
         aux = aux2;
     }
 
-    
+    // d[destino] já contém a distância mínima do destino em relação ao vértice
     printf("%d %d", d[destino], custo);
 
     free(antecessor);

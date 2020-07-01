@@ -1,7 +1,7 @@
 all: prog
 
 run: prog 
-	./prog 
+	./prog < 8.in
 
 debug: listaencad.o grafo_matriz.o main.o
 	gcc -o prog listaencad.o grafo_matriz.o main.o -g
